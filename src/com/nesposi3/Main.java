@@ -8,11 +8,12 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         VendingMachine vendingMachine = new VendingMachine();
         while(true){
+            System.out.println(vendingMachine.toString());
             String command = sc.nextLine();
             if(command.equalsIgnoreCase("exit")){
                 break;
             }else{
-
+                vendingMachine.getInput(command);
             }
         }
     }
