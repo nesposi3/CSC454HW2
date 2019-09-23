@@ -50,24 +50,23 @@ public class VendingMachine {
         int totalN = n * 5;
         int totalD = d * 10;
         int totalQ = q * 25;
-        int newValue = this.value + totalN + totalD * +(totalQ);
         if (delta) {
-            this.nickel += n;
-            this.dime += d;
-            this.quarter += q;
-            this.value += totalD + totalN + totalQ;
             if (c > 0) {
-                this.change = !this.change;
+                this.change = true;
             }
-            if (newValue >= 100) {
+            if (this.value >= 100) {
                 //vend coffee
                 this.value -= 100;
             }
             if (this.change) {
                 getChange(true, this.value);
             }
+            this.nickel += n;
+            this.dime += d;
+            this.quarter += q;
+            this.value += totalD + totalN + totalQ;
         } else {
-            if (newValue >= 100) {
+            if (this.value >= 100) {
                 //vend coffee
                 System.out.println("Coffee");
             }
@@ -82,7 +81,7 @@ public class VendingMachine {
         int n = 0;
         int d = 0;
         if (delta) {
-            //this.value = 0;
+            this.value = 0;
         } else {
             System.out.println("Here is your change");
         }
@@ -90,6 +89,6 @@ public class VendingMachine {
 
     @Override
     public String toString() {
-        return "Current value: " + this.value + "\nNickels: " + this.nickel + " Dimes: " + this.dime + " Quarters: " + this.quarter;
+        return "Current value: " + this.value + "\nNickels: " + this.nickel + " Dimes: " + this.dime + " Quarters: " + this.quarter + " Change: " + this.change;
     }
 }
