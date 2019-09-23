@@ -51,15 +51,17 @@ public class VendingMachine {
         int totalD = d * 10;
         int totalQ = q * 25;
         if (delta) {
-            if (c > 0) {
-                this.change = true;
-            }
+            // The vending machine must check to see these conditions before it adjusts value
             if (this.value >= 100) {
                 //vend coffee
                 this.value -= 100;
             }
             if (this.change) {
-                getChange(true, this.value);
+                getChange(true);
+            }
+
+            if (c > 0) {
+                this.change = true;
             }
             this.nickel += n;
             this.dime += d;
@@ -71,17 +73,19 @@ public class VendingMachine {
                 System.out.println("Coffee");
             }
             if (this.change) {
-                this.getChange(false, this.value);
+                this.getChange(false);
             }
         }
     }
 
-    public void getChange(boolean delta, int value) {
+    private void getChange(boolean delta) {
         int q = 0;
         int n = 0;
         int d = 0;
         if (delta) {
             this.value = 0;
+            // We want the change flag to reset after every time the user gets change
+            this.change = false;
         } else {
             System.out.println("Here is your change");
         }
