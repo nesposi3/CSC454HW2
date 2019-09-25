@@ -15,6 +15,7 @@ public class Main {
             }else{
                 vendingMachine.getInput(command);
             }
+
         }
     }
 }
