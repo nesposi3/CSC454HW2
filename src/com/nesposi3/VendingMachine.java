@@ -39,8 +39,8 @@ public class VendingMachine {
                 w++;
             }
         }
-        this.output();
-        this.changeState(n, d, q, c, w);
+        this.lambda();
+        this.delta(n, d, q, c, w);
     }
 
     /**
@@ -48,7 +48,7 @@ public class VendingMachine {
      *
      * @throws CallManagerException
      */
-    private void output() throws CallManagerException {
+    private void lambda() throws CallManagerException {
         boolean coffeOnTick = false;
         if (this.value >= 100) {
             //vend coffee
@@ -71,7 +71,7 @@ public class VendingMachine {
      * @param w
      * @throws CallManagerException
      */
-    private void changeState(int n, int d, int q, int c, int w) throws CallManagerException {
+    private void delta(int n, int d, int q, int c, int w) throws CallManagerException {
         // The vending machine must check to see these conditions before it adjusts value
         // React to lambda conditions
         if (this.value >= 100) {
