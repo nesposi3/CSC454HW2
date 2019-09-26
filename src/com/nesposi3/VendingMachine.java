@@ -16,6 +16,7 @@ public class VendingMachine {
 
     /**
      * Entrypoint into the vending machine
+     *
      * @param input raw input from the user
      * @throws CallManagerException
      */
@@ -50,10 +51,12 @@ public class VendingMachine {
      */
     private void lambda() throws CallManagerException {
         boolean coffeOnTick = false;
-        if (this.value >= 100) {
+        int val = this.value;
+        while (val >= 100) {
             //vend coffee
             System.out.println("Coffee");
             coffeOnTick = true;
+            val -= 100;
         }
         if (this.change) {
             this.getChangeLambda(coffeOnTick);
@@ -74,8 +77,8 @@ public class VendingMachine {
     private void delta(int n, int d, int q, int c, int w) throws CallManagerException {
         // The vending machine must check to see these conditions before it adjusts value
         // React to lambda conditions
-        if (this.value >= 100) {
-            //vend coffee
+        while (this.value >= 100) {
+            //vend as many coffees as it can
             this.value -= 100;
         }
         if (this.change) {
@@ -97,6 +100,7 @@ public class VendingMachine {
 
     /**
      * Method that adjusts the state if the user gets change
+     *
      * @throws CallManagerException
      */
     private void getChangeDelta() throws CallManagerException {
@@ -104,25 +108,19 @@ public class VendingMachine {
         int n = 0;
         int d = 0;
         int val = this.value;
-        if(val >= 25){
-            while (q*25 <= val-25){
-                q++;
-            }
+        while (q * 25 <= val - 25) {
+            q++;
         }
         val -= (q * 25);
-        if(val >= 10){
-            while(d*10 <= val-10){
-                d++;
-            }
+        while (d * 10 <= val - 10) {
+            d++;
         }
-        val -=(d * 10);
-        if(val >=5){
-            while(n*5 <= val-5){
-                n++;
-            }
+        val -= (d * 10);
+        while (n * 5 <= val - 5) {
+            n++;
         }
-        val -=(n * 5);
-        if(val!=0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)){
+        val -= (n * 5);
+        if (val != 0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)) {
             throw new CallManagerException("Insufficient coinage in vending machine to dispense change");
         }
         this.value = 0;
@@ -136,6 +134,7 @@ public class VendingMachine {
 
     /**
      * Method that provides output if the user asks for change
+     *
      * @param coffeeOnTick If the user also recieves coffee on the same tick, so value will need to be adjusted
      * @throws CallManagerException
      */
@@ -145,27 +144,23 @@ public class VendingMachine {
         int d = 0;
         int val = this.value;
         if (coffeeOnTick) {
-            val -= 100;
-        }
-        if(val >= 25){
-            while (q*25 <= val-25){
-                q++;
+            while (val >= 100) {
+                val -= 100;
             }
+        }
+        while (q * 25 <= val - 25) {
+            q++;
         }
         val -= (q * 25);
-        if(val >= 10){
-            while(d*10 <= val-10){
-                d++;
-            }
+        while (d * 10 <= val - 10) {
+            d++;
         }
-        val -=(d * 10);
-        if(val >=5){
-            while(n*5 <= val-5){
-                n++;
-            }
+        val -= (d * 10);
+        while (n * 5 <= val - 5) {
+            n++;
         }
-        val -=(n * 5);
-        if(val!=0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)){
+        val -= (n * 5);
+        if (val != 0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)) {
             throw new CallManagerException("Insufficient coinage in vending machine to dispense change");
         }
         String change = "Here is your change:";
