@@ -6,7 +6,11 @@ public class VendingMachine {
     private boolean change;
     private int value;
     private int quarter;
-
+    public VendingMachine(int n, int d, int q){
+        this.nickel = n;
+        this.dime = d;
+        this.quarter = q;
+    }
     public VendingMachine() {
         this.dime = 0;
         this.nickel = 0;
