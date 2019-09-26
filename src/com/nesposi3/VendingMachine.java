@@ -103,16 +103,27 @@ public class VendingMachine {
         int q = 0;
         int n = 0;
         int d = 0;
-        if (this.value % 25 == 0 && (this.quarter * 25 >= this.value)) {
-            q = this.value / 25;
-        } else if (this.value % 10 == 0 && (this.dime * 10 >= this.value)) {
-            d = this.value / 10;
-
-        } else if (this.value % 5 == 0 && (this.nickel * 5 >= this.value)) {
-            n = this.value / 5;
-
-        } else {
-            throw new CallManagerException("Not enough change");
+        int val = this.value;
+        if(val >= 25){
+            while (q*25 <= val-25){
+                q++;
+            }
+        }
+        val -= (q * 25);
+        if(val >= 10){
+            while(d*10 <= val-10){
+                d++;
+            }
+        }
+        val -=(d * 10);
+        if(val >=5){
+            while(n*5 <= val-5){
+                n++;
+            }
+        }
+        val -=(n * 5);
+        if(val!=0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)){
+            throw new CallManagerException("Insufficient coinage in vending machine to dispense change");
         }
         this.value = 0;
         this.quarter -= q;
@@ -136,43 +147,36 @@ public class VendingMachine {
         if (coffeeOnTick) {
             val -= 100;
         }
-        //TODO This algorithm is not correct. some combination of off-by-one fixes will fix it
-        System.out.println(val);
         if(val >= 25){
-            while (q*25 < val-25){
+            while (q*25 <= val-25){
                 q++;
             }
         }
-
         val -= (q * 25);
-
         if(val >= 10){
-            while(d*10 < val-10){
+            while(d*10 <= val-10){
                 d++;
             }
         }
-
         val -=(d * 10);
-
         if(val >=5){
-            while(n*5 < val-5){
+            while(n*5 <= val-5){
                 n++;
             }
         }
         val -=(n * 5);
-        System.out.println(val + " " + q + " " + d + " " + n);
         if(val!=0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)){
             throw new CallManagerException("Insufficient coinage in vending machine to dispense change");
         }
-        String change = "Here is your change: ";
+        String change = "Here is your change:";
         if (q > 0) {
-            change += q + " quarters";
+            change += " " + q + " quarters";
         }
         if (d > 0) {
-            change += d + " dimes";
+            change += " " + d + " dimes";
         }
         if (n > 0) {
-            change += n + " nickels";
+            change += " " + n + " nickels";
         }
         System.out.println(change);
 
