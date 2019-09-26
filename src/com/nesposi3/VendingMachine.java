@@ -10,6 +10,7 @@ public class VendingMachine {
         this.nickel = n;
         this.dime = d;
         this.quarter = q;
+        this.change = false;
     }
     public VendingMachine() {
         this.dime = 0;
