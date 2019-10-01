@@ -64,7 +64,22 @@ public class VendingMachine {
             val -= 100;
         }
         if (this.change) {
-            this.getChangeLambda(coffeOnTick);
+            int[] changeBack = this.getChange(val,this.quarter,this.dime,this.nickel);
+            int q = changeBack[0];
+            int d = changeBack[1];
+            int n = changeBack[2];
+            String change = "Here is your change:";
+            if (q > 0) {
+                change += " " + q + " quarters";
+            }
+            if (d > 0) {
+                change += " " + d + " dimes";
+            }
+            if (n > 0) {
+                change += " " + n + " nickels";
+            }
+            System.out.println(change);
+            //this.getChangeLambda(coffeOnTick);
         }
     }
 
@@ -87,7 +102,17 @@ public class VendingMachine {
             this.value -= 100;
         }
         if (this.change) {
-            this.getChangeDelta();
+            int[] changeBack = this.getChange(this.value,this.quarter,this.dime,this.nickel);
+            int quarter = changeBack[0];
+            int dime = changeBack[1];
+            int nickel = changeBack[2];
+
+            this.value = 0;
+            this.quarter -= quarter;
+            this.nickel -= nickel;
+            this.dime -= dime;
+            // We want the change flag to reset after every time the user gets change
+            this.change = false;
         }
 
         // Then adjust state based on input
@@ -104,15 +129,19 @@ public class VendingMachine {
     }
 
     /**
-     * Method that adjusts the state if the user gets change
-     *
+     * Method that computes change based on value and change combinations
+     * @param val Total value to return
+     * @param quarter number of quarters
+     * @param dime number of dimes
+     * @param nickel number of nickels
+     * @return Returns an int array of size 3. Index 0 represents quarters, 1 dimes, and 2 nickels
      * @throws CallManagerException
      */
-    private void getChangeDelta() throws CallManagerException {
+    private int[] getChange(int val,int quarter,int dime, int nickel) throws CallManagerException{
+        int[] out = new int[3];
         int q = 0;
         int n = 0;
         int d = 0;
-        int val = this.value;
         while (q * 25 <= val - 25) {
             q++;
         }
@@ -125,62 +154,13 @@ public class VendingMachine {
             n++;
         }
         val -= (n * 5);
-        if (val != 0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)) {
+        if (val != 0 || (q > quarter) || (d > dime) || (n > nickel)) {
             throw new CallManagerException("Insufficient coinage in vending machine to dispense change");
         }
-        this.value = 0;
-        this.quarter -= q;
-        this.nickel -= n;
-        this.dime -= d;
-        // We want the change flag to reset after every time the user gets change
-        this.change = false;
-
-    }
-
-    /**
-     * Method that provides output if the user asks for change
-     *
-     * @param coffeeOnTick If the user also recieves coffee on the same tick, so value will need to be adjusted
-     * @throws CallManagerException
-     */
-    private void getChangeLambda(boolean coffeeOnTick) throws CallManagerException {
-        int q = 0;
-        int n = 0;
-        int d = 0;
-        int val = this.value;
-        if (coffeeOnTick) {
-            while (val >= 100) {
-                val -= 100;
-            }
-        }
-        while (q * 25 <= val - 25) {
-            q++;
-        }
-        val -= (q * 25);
-        while (d * 10 <= val - 10) {
-            d++;
-        }
-        val -= (d * 10);
-        while (n * 5 <= val - 5) {
-            n++;
-        }
-        val -= (n * 5);
-        if (val != 0 || (q > this.quarter) || (d > this.dime) || (n > this.nickel)) {
-            throw new CallManagerException("Insufficient coinage in vending machine to dispense change");
-        }
-        String change = "Here is your change:";
-        if (q > 0) {
-            change += " " + q + " quarters";
-        }
-        if (d > 0) {
-            change += " " + d + " dimes";
-        }
-        if (n > 0) {
-            change += " " + n + " nickels";
-        }
-        System.out.println(change);
-
-
+        out[0] = q;
+        out[1] = d;
+        out[2] = n;
+        return out;
     }
 
 
