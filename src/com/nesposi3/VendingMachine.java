@@ -55,12 +55,10 @@ public class VendingMachine {
      * @throws CallManagerException
      */
     public void lambda() throws CallManagerException {
-        boolean coffeOnTick = false;
         int val = this.value;
         while (val >= 100) {
             //vend coffee
             System.out.println("Coffee");
-            coffeOnTick = true;
             val -= 100;
         }
         if (this.change) {
@@ -79,7 +77,6 @@ public class VendingMachine {
                 change += " " + n + " nickels";
             }
             System.out.println(change);
-            //this.getChangeLambda(coffeOnTick);
         }
     }
 
