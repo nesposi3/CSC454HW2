@@ -54,7 +54,7 @@ public class VendingMachine {
      *
      * @throws CallManagerException
      */
-    private void lambda() throws CallManagerException {
+    public void lambda() throws CallManagerException {
         boolean coffeOnTick = false;
         int val = this.value;
         while (val >= 100) {
@@ -94,7 +94,7 @@ public class VendingMachine {
      * @param w
      * @throws CallManagerException
      */
-    private void delta(int n, int d, int q, int c, int w) throws CallManagerException {
+    public void delta(int n, int d, int q, int c, int w) throws CallManagerException {
         // The vending machine must check to see these conditions before it adjusts value
         // React to lambda conditions
         while (this.value >= 100) {
